@@ -65,3 +65,14 @@ REST
 SPRING BOOT
 
 A anotação @SpringBootApplication faz a aplicação subir
+
+Devem ser colocadas antes do nome da classe de teste controller:
+     -a anotação @ExtendWith(SpringExtension.class) - para o spring saber que é uma classe de teste controller
+     - @ActiveProfiles("test") - para rodar como teste
+     - @WebMvcTest
+     - @AutoConfigureMockMvc - configurar o objeto e fazer as requisições
+
+
+Antes dos teste colocar a anotation 
+     - @Autowired - para injeção de dependência
+ e o objeto MockMvc - ele mocka as requisições
