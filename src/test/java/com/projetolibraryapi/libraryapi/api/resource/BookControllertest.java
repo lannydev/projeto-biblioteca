@@ -46,7 +46,7 @@ public class BookControllertest {
                 .andExpect(jsonPath("id").isNotEmpty() )
                 .andExpect( jsonPath("title").value("Meu Livro"))
                 .andExpect(jsonPath("author").value("Autor"))
-                .andExpect(jsonPath("isbn").value("123456"));
+                .andExpect(jsonPath("isbn").value("1234567"));
 
     }
 
