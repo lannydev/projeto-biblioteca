@@ -1,0 +1,67 @@
+Testes unitários
+
+1. cenário - montagem do cenário de teste
+
+2. Executar - Executa o teste em si
+
+3. verificação do teste - se o teste ocorreu com sucesso
+Assert - diretivas do JUnit
+
+
+
+TDD (Test Driven Development)
+- Desenvolvimento orientado por testes
+
+O software é desenvolvido baseado em testes que são escritos antes do código fonte
+ 
+FUNCIONAMENTO:
+- Primeiro escreve o teste - a principio o teste não vai passar
+- Implementa o código
+- Fazer o teste passar 
+- Refatorar
+
+
+BDD (Behavior Driven Development) - Consiste em escrever testes que qualquer humano pode ler. BDD trás pra gente não só um estilo de escrever cenários de testes amigável, mas a importante idéia do que deve ser feito antes de escrever o código que implementa sua funcionalidade. 
+- Modelar o comportamento do sistema através de testes e depois implementar as funcionalidades.
+
+FUNCIONAMENTO?
+- Given - Dado - Cenário
+- When - Quando - Execução
+- Then - Então - Resultado
+
+
+
+MOCKITO
+Biblioteca que auxilia os testes - fazer mok de objetos
+(ao fazer instancia de objetos - faz-se instancia de mock
+
+
+Outra forma de criar mocks é através na anotaciom @Mock - mas para rodar a anotacion vc deve usar antes da classe a extensão @RunWith(MockitoJUnitRunner.class)
+    - no JUnit5 a extensão é @ExtendWith(MockitoExtension.class)
+
+A anotação @DisplayName - Descreve o que o teste vai fazer
+
+A anotação @Before e o método public void setUp(){} executa o comandos em todos os testes
+    - No JUnit 5 o comando é @BeforeEach ou @BeforeAll
+
+
+
+
+REST
+
+1. Representational State Transfer
+2. Design  de arquitetura construído para servir aplicações de rede
+3. Funciona no modelo REQUEST - RESPONSE
+4. Verbos HTTP
+5. Representação de recursos:
+    JSON
+        .Javascript Object Notacion
+        .Leitura mais simples
+        .Suporta objetos
+        .É tipado
+        
+
+
+SPRING BOOT
+
+A anotação @SpringBootApplication faz a aplicação subir
