@@ -2,12 +2,17 @@ package com.projetolibraryapi.libraryapi.api.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projetolibraryapi.libraryapi.api.dto.BookDTO;
+import com.projetolibraryapi.libraryapi.model.entity.Book;
+import com.projetolibraryapi.libraryapi.service.BookService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,14 +34,22 @@ public class BookControllertest {
     @Autowired
     MockMvc mvc;
 
+    @MockBean
+    BookService service;
+
     @Test
     @DisplayName("Deve criar livro com sucesso.")
     public void createBookTest() throws Exception{
 
         BookDTO dto = BookDTO.builder().author("Arthur").title("As aventuras").isbn("001").build();
-
+        Book savedBook = Book.builder()
+                .id(10L)
+                .author("Arthur")
+                .title("As aventuras")
+                .isbn("001").build();
+        BDDMockito.given(service.save(Mockito.any(Book.class))).willReturn(savedBook);
         //recebe um objeto de qualquer tipo e transforma em Json
-        String json = new ObjectMapper().writeValueAsString(null);
+        String json = new ObjectMapper().writeValueAsString(dto);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(BOOK_API)
                 .contentType(MediaType.APPLICATION_JSON)
