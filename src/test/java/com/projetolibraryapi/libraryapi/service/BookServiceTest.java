@@ -37,7 +37,7 @@ public class BookServiceTest {
                 .author("Fulano")
                 .title("As aventuras")
                 .build();
-        
+
         Mockito.when(repository.save(book))
                 .thenReturn(Book.builder()
                         .id(1L)
