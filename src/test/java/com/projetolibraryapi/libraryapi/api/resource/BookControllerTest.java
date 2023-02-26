@@ -3,6 +3,7 @@ package com.projetolibraryapi.libraryapi.api.resource;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projetolibraryapi.libraryapi.api.dto.BookDTO;
+import com.projetolibraryapi.libraryapi.exception.BusinessException;
 import com.projetolibraryapi.libraryapi.model.entity.Book;
 import com.projetolibraryapi.libraryapi.service.BookService;
 import org.hamcrest.Matchers;
@@ -43,7 +44,7 @@ public class BookControllerTest {
     @DisplayName("Deve criar livro com sucesso.")
     public void createBookTest() throws Exception{
 
-        BookDTO dto = BookDTO.builder().author("Arthur").title("As aventuras").isbn("001").build();
+        BookDTO dto = createNewBook();
         Book savedBook = Book.builder()
                 .id(10L)
                 .author("Arthur")
@@ -68,6 +69,7 @@ public class BookControllerTest {
 
     }
 
+
     @Test
     @DisplayName("Deve lançar erro de validação quando não houver dados suficientes para criação do livro.")
     public void createInvalidBookTest() throws Exception {
@@ -83,5 +85,31 @@ public class BookControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errors", hasSize(3)));
 
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro ao tentar cadastrar um livro com isbn já utilizado por outro")
+    public void creatBookWithDuplicatedIsbn() throws Exception{
+
+        BookDTO dto= createNewBook();
+
+        String json = new ObjectMapper().writeValueAsString(dto);
+        String mensagemErro = "Isbn existente";
+        BDDMockito.given(service.save(Mockito.any(Book.class)))
+                .willThrow(new BusinessException(mensagemErro));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(BOOK_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc.perform( request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors", hasSize(1)))
+                .andExpect(jsonPath("errors[0]").value(mensagemErro));
+    }
+
+    private static BookDTO createNewBook() {
+        return BookDTO.builder().author("Arthur").title("As aventuras").isbn("001").build();
     }
 }
